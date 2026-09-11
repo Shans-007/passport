@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Паспорт диагноста</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,Segoe UI,Roboto,sans-serif; }
+  body { background:#0f172a; color:#e2e8f0; min-height:100vh; }
+  .screen { display:none; padding:20px; max-width:480px; margin:0 auto; }
+  .screen.active { display:block; }
+
+  /* Экран входа */
+  #login { display:flex; flex-direction:column; justify-content:center; min-height:100vh; }
+  .logo { text-align:center; font-size:22px; font-weight:700; margin-bottom:8px; }
+  .logo span { color:#38bdf8; }
+  .subtitle { text-align:center; color:#94a3b8; margin-bottom:32px; font-size:14px; }
+  input { width:100%; padding:14px; margin-bottom:14px; border:none; border-radius:12px;
+          background:#1e293b; color:#e2e8f0; font-size:15px; }
+  button { width:100%; padding:14px; border:none; border-radius:12px; background:#38bdf8;
+           color:#0f172a; font-weight:700; font-size:16px; cursor:pointer; }
+  button:active { opacity:.8; }
+
+  /* Паспорт */
+  .header { display:flex; align-items:center; gap:14px; background:linear-gradient(135deg,#1e40af,#38bdf8);
+            padding:20px; border-radius:18px; margin-bottom:16px; }
+  .avatar { width:64px; height:64px; border-radius:50%; background:#fff; color:#1e40af;
+            display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; }
+  .header h2 { font-size:18px; color:#fff; }
+  .header p { font-size:13px; color:#dbeafe; }
+  .badge { display:inline-block; margin-top:6px; padding:3px 10px; border-radius:20px;
+           font-size:11px; font-weight:700; background:#22c55e; color:#052e16; }
+
+  .card { background:#1e293b; border-radius:16px; padding:16px; margin-bottom:14px; }
+  .card h3 { font-size:13px; color:#94a3b8; text-transform:uppercase; margin-bottom:12px; letter-spacing:.5px; }
+  .row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #334155; font-size:14px; }
+  .row:last-child { border:none; }
+  .row .k { color:#94a3b8; }
+  .row .v { font-weight:600; text-align:right; }
+
+  .cert { border-left:3px solid #38bdf8; padding:12px 14px; background:#0f172a;
+          border-radius:10px; margin-bottom:10px; }
+  .cert .num { font-weight:700; font-size:15px; }
+  .cert .q { font-size:13px; color:#cbd5e1; margin:4px 0; }
+  .cert .dates { font-size:12px; color:#94a3b8; }
+  .st-ok { color:#22c55e; } .st-warn { color:#f59e0b; } .st-exp { color:#ef4444; }
+  .qr { text-align:center; margin-top:8px; }
+  .qr img { border-radius:10px; }
+  .logout { background:#334155; color:#e2e8f0; margin-top:8px; }
+</style>
+</head>
+<body>
+
+<!-- ЭКРАН ВХОДА -->
+<div id="login" class="screen active">
+  <div class="logo">Паспорт <span>Диагноста</span></div>
+  <div class="subtitle">Войдите в личный кабинет</div>
+  <input type="text" id="user" placeholder="Логин / Email" value="ivanov">
+  <input type="password" id="pass" placeholder="Пароль" value="1234">
+  <button onclick="login()">Войти</button>
+</div>
+
+<!-- ЭКРАН ПАСПОРТА -->
+<div id="passport" class="screen">
+  <div class="header">
+    <div class="avatar">ИИ</div>
+    <div>
+      <h2>Иванов Иван Иванович</h2>
+      <p>ООО «ТехДиагностика» · Урал</p>
+      <span class="badge">Квалификация подтверждена</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Общие данные</h3>
+    <div class="row"><span class="k">Телефон</span><span class="v">+7 900 123-45-67</span></div>
+    <div class="row"><span class="k">Email</span><span class="v">ivanov@mail.ru</span></div>
+    <div class="row"><span class="k">Регион</span><span class="v">Свердловская обл.</span></div>
+    <div class="row"><span class="k">Дата обучения</span><span class="v">15.03.2025</span></div>
+  </div>
+
+  <div class="card">
+    <h3>Мои сертификаты</h3>
+
+    <div class="cert">
+      <div class="num">№ УЗК-2025-0421</div>
+      <div class="q">Ультразвуковой контроль · Уровень II</div>
+      <div class="dates">Выдан: 20.03.2025 · Действует до: 20.03.2028
+        <span class="st-ok">● действует</span></div>
+    </div>
+
+    <div class="cert">
+      <div class="num">№ ВИК-2024-1180</div>
+      <div class="q">Визуально-измерительный контроль · Уровень II</div>
+      <div class="dates">Выдан: 10.11.2024 · Действует до: 10.11.2025
+        <span class="st-warn">● истекает</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Верификация</h3>
+    <div class="qr">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=diag-passport-ivanov" alt="QR">
+      <p style="font-size:12px;color:#94a3b8;margin-top:8px">Покажите QR заказчику для проверки</p>
+    </div>
+  </div>
+
+  <button class="logout" onclick="logout()">Выйти</button>
+</div>
+
+<script>
+  function login(){
+    // Здесь будет реальный запрос к API. Пока — заглушка для демо.
+    document.getElementById('login').classList.remove('active');
+    document.getElementById('passport').classList.add('active');
+  }
+  function logout(){
+    document.getElementById('passport').classList.remove('active');
+    document.getElementById('login').classList.add('active');
+  }
+</script>
+</body>
+</html>
